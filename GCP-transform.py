@@ -72,8 +72,6 @@ def compute_transformation_params(control_points, field_points):
 # In[ ]:
 
 
-# Matching common points and removing outliers
-
 def match_common_points(control_points, field_points):
     """Match common points based on ID."""
     common_field_points = field_points[field_points['ID'].isin(control_points['ID'])]
@@ -94,7 +92,7 @@ def calculate_elevation_adjustment(reduced_common_control_points, reduced_common
 
 def apply_elevation_adjustment(field_points, elevation_adjustment):
     """Apply elevation adjustment to all field points."""
-    field_points['Adjusted Elevation'] = field_points['Elevation'] + elevation_adjustment
+    field_points['Adjusted Elevation'] = field_points['Elevation'] + e    tion_adjustment
    return field_points
 _points
 field_points
