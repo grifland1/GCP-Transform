@@ -10,6 +10,10 @@ from scipy.optimize import minimize
 import math
 import streamlit as st
 
+
+# In[ ]:
+
+
 def main():
     st.title("GCP Transformation App")
 
@@ -27,6 +31,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 # In[ ]:
 
@@ -72,30 +77,28 @@ def compute_transformation_params(control_points, field_points):
 # In[ ]:
 
 
-def match_common_points(control_points, field_points):
-    """Match common points based on ID."""
-    common_field_points = field_points[field_points['ID'].isin(control_points['ID'])]
-    common_control_points = control_points[control_points['ID'].isin(field_points['ID'])]
-    return common_control_points, common_field_points
-
-def remove_outliers(initial_transformed_points, control_points, percentage=25):
-    """Remove a percentage of points with the highest distance errors."""
-    errors = np.linalg.norm(initial_transformed_points - control_points[['Easting', 'Northing']].values, axis=1)
-    error_threshold = np.percentile(errors, 100 - percentage)
-    keep_indices = errors < error_threshold
-    return keep_indices
-
-def calculate_elevation_adjustment(reduced_common_control_points, reduced_common_field_points):
-    """Calculate the average delta in elevation for adjustment."""
-    elevation_delta = reduced_common_control_points['Elevation'] - reduced_common_field_points['Elevation']
-    return elevation_delta.mean()
-
-def apply_elevation_adjustment(field_points, elevation_adjustment):
-    """Apply elevation adjustment to all field points."""
-    field_points['Adjusted Elevation'] = field + ileva'Elevation'] + e    tion_adjustment
-   return field_points
-_points
-field_points
+def match_common_points(control_points, field_points):
+    """Match common points based on ID."""
+    common_field_points = field_points[field_points['ID'].isin(control_points['ID'])]
+    common_control_points = control_points[control_points['ID'].isin(field_points['ID'])]
+    return common_control_points, common_field_points
+
+def remove_outliers(initial_transformed_points, control_points, percentage=25):
+    """Remove a percentage of points with the highest distance errors."""
+    errors = np.linalg.norm(initial_transformed_points - control_points[['Easting', 'Northing']].values, axis=1)
+    error_threshold = np.percentile(errors, 100 - percentage)
+    keep_indices = errors < error_threshold
+    return keep_indices
+
+def calculate_elevation_adjustment(reduced_common_control_points, reduced_common_field_points):
+    """Calculate the average delta in elevation for adjustment."""
+    elevation_delta = reduced_common_control_points['Elevation'] - reduced_common_field_points['Elevation']
+    return elevation_delta.mean()
+
+def apply_elevation_adjustment(field_points, elevation_adjustment):
+    """Apply elevation adjustment to all field points."""
+    field_points['Adjusted Elevation'] = field_points['Elevation'] + elevation_adjustment
+    return field_points
 
 
 # In[ ]:
