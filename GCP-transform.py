@@ -95,7 +95,8 @@ def calculate_elevation_adjustment(reduced_common_control_points, reduced_common
 def apply_elevation_adjustment(field_points, elevation_adjustment):
     """Apply elevation adjustment to all field points."""
     field_points['Adjusted Elevation'] = field_points['Elevation'] + elevation_adjustment
-    eturn field_points
+   return field_points
+_points
 field_points
 
 
