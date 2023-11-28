@@ -115,6 +115,12 @@ def main():
         control_points.columns = ['ID', 'Northing', 'Easting', 'Elevation', 'Description']
         field_points.columns = ['ID', 'Northing', 'Easting', 'Elevation', 'Description']
 
+        # Display the input dataframes without index
+        st.write("Control Points:")
+        st.write(control_points, index=False)
+        st.write("Field Points:")
+        st.write(field_points, index=False)
+
         # Call create_adjusted_points
         adjusted_points = create_adjusted_points(control_points, field_points)
 
@@ -133,3 +139,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
