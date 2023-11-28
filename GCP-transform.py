@@ -123,11 +123,11 @@ def main():
         st.write("Adjusted Points:")
         st.write(adjusted_points, index=False)
 
-    # Convert DataFrame to CSV without header and provide a download link
-    csv = adjusted_points.to_csv(index=False, header=False)
-    b64 = base64.b64encode(csv.encode()).decode()
-    href = f'<a href="data:file/csv;base64,{b64}" download="adjusted_points.csv">Download Adjusted Points CSV File</a>'
-    st.markdown(href, unsafe_allow_html=True)
+        # Convert DataFrame to CSV without header and provide a download link
+        csv = adjusted_points.to_csv(index=False, header=False)
+        b64 = base64.b64encode(csv.encode()).decode()
+        href = f'<a href="data:file/csv;base64,{b64}" download="adjusted_points.csv">Download Adjusted Points CSV File</a>'
+        st.markdown(href, unsafe_allow_html=True)
     else:
         st.error("No adjusted points to display.")
 
