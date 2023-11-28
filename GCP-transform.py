@@ -88,8 +88,9 @@ def create_adjusted_points(control_points, field_points):
     common_control_points, common_field_points = match_common_points(control_points, field_points)
 
     if len(control_points) == 0 or len(field_points) == 0:
-        # Return an empty DataFrame if there's no data to process
-        return pd.DataFrame(columns=['Adjusted Northing', 'Adjusted Easting', 'Adjusted Elevation'])
+        # Return an empty DataFrame if there's no data to process
+        return pd.DataFrame(columns=['ID', 'Adjusted Northing', 'Adjusted Easting', 'Adjusted Elevation', 'Description']
+        )
 
     # Initial best-fit transformation
     initial_params = compute_transformation_params(common_control_points[['Easting', 'Northing']].values, 
@@ -110,16 +111,19 @@ def create_adjusted_points(control_points, field_points):
     elevation_adjustment = calculate_elevation_adjustment(reduced_common_control_points, reduced_common_field_points)
     adjusted_field_points = apply_elevation_adjustment(field_points, elevation_adjustment)
 
-    # Apply final transformation to adjusted field points (with elevation)
-    adjusted_points = transform_points(final_params, adjusted_field_points[['Easting', 'Northing']].values)
-    adjusted_points_df = pd.DataFrame(adjusted_points, columns=['Adjusted Easting', 'Adjusted Northing'], index=adjusted_field_points['ID'])
-    adjusted_points_df['Adjusted Elevation'] = adjusted_field_points['Adjusted Elevation']
-
-    # Rounding to 3 decimal places
-    adjusted_points_df = adjusted_points_df.round(3)
-    
-    return adjusted_points_df
-
+  # Apply final transformation to adjusted field points (with elevation)
+    adjusted_points = transform_points(final_params, field_points[['Northing', 'Easting']].values)
+    adjusted_points_df = pd.DataFrame(adjusted_points, columns=['Adjusted Northing', 'Adjusted Easting'], index=field_points['ID'])
+    adjusted_points_df['Adjusted Elevation'] = field_points['Adjusted Elevation']
+    adjusted_points_df['Description'] = field_points['Description']  # Retain the description
+
+    # Rounding to 3 decimal places
+    adjusted_points_df = adjusted_points_df.round(3)3)
+# Reset index to add 'ID' as a column and reorder the columns
+    adjusted_points_df.reset_index(inplace=True)
+    adjusted_points_df = adjusted_points_df[['ID', 'Adjusted Northing', 'Adjusted Easting', 'Adjusted Elevation', 'Description']]
+
+    return adjusted_points_dfoints_df
 
 # In[22]:
 
@@ -143,21 +147,20 @@ def main():
         st.write("Field Points:")
         st.write(field_points)
 
-        # Call to create_adjusted_points
-        adjusted_points = create_adjusted_points(control_points, field_points)
+        # Call to create_adjusted_poadjusted_points = create_adjusted_points(control_points, field_points)
 
         if adjusted_points is not None and not adjusted_points.empty:
             st.write("Adjusted Points:")
-            st.write(adjusted_points)
+            st.write(adjusted_points)usted_points)
 
-            # Convert DataFrame to CSV
-            csv = adjusted_points.to_csv(index=False)
-            b64 = base64.b64encode(csv.encode()).decode()  # some browsers need base64 encoding
+            # Convert Dat and provide a download linkaFrame to CSVcsv = adjusted_points.to_csv(index=False)
+            b64 = base64.b64encode(csv.encode()).decode()
             href = f'<a href="data:file/csv;base64,{b64}" download="adjusted_points.csv">Download Adjusted Points CSV File</a>'
             st.markdown(href, unsafe_allow_html=True)
         else:
             st.error("No adjusted points to display.")
 
 if __name__ == "__main__":
+    main()":
     main()
 
