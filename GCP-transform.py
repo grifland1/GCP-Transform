@@ -105,17 +105,22 @@ def create_adjusted_points(control_points, field_points):
     elevation_adjustment = calculate_elevation_adjustment(reduced_common_control_points, reduced_common_field_points)
     adjusted_field_points = apply_elevation_adjustment(field_points, elevation_adjustment)
 
+    # Apply final transformation to adjusted field points (with elevation)
     adjusted_points = transform_points(final_params, adjusted_field_points[['Northing', 'Easting']].values)
-    adjusted_points_df = pd.DataFrame(adjusted_points, columns=['Adjusted Northing', 'Adjusted Easting'], index=field_points['ID'])
+    adjusted_points_df = pd.DataFrame(adjusted_points, columns=['Adjusted Northing', 'Adjusted Easting'])
     adjusted_points_df['Adjusted Elevation'] = adjusted_field_points['Adjusted Elevation']
     adjusted_points_df['Description'] = adjusted_field_points['Description']
 
-    adjusted_points_df = adjusted_points_df.round(3)
-    adjusted_points_df.reset_index(inplace=True)
+    # Add the ID column from the field_points DataFrame
+    adjusted_points_df['ID'] = adjusted_field_points['ID']
+
+    # Reorder the columns
     adjusted_points_df = adjusted_points_df[['ID', 'Adjusted Northing', 'Adjusted Easting', 'Adjusted Elevation', 'Description']]
 
+    adjusted_points_df = adjusted_points_df.round(3)
+
     return adjusted_points_df
-_dfoints_df
+
 
 # In[22]:
 
