@@ -15,17 +15,12 @@ def load_points_from_csv(file_path):
     return df
 
 def transform_points(params, field_points):
-    """Apply a 2D transformation (scaling, rotation, translation) to field points."""
     scale, angle, tx, ty = params
-    transformed = np.empty_like(field_points)
-    cos_angle, sin_angle = np.cos(angle), np.sin(angle)
-
-    for i, (northing, easting) in enumerate(field_points):
-        northing_scaled, easting_scaled = northing * scale, easting * scale
-        northing_new = northing_scaled * cos_angle - easting_scaled * sin_angle + tx
-        easting_new = northing_scaled * sin_angle + easting_scaled * cos_angle + ty
-        transformed[i] = [northing_new, easting_new]
-
+    transform_matrix = np.array([
+        [np.cos(angle) * scale, -np.sin(angle) * scale],
+        [np.sin(angle) * scale,  np.cos(angle) * scale]
+    ])
+    transformed = np.dot(field_points, transform_matrix.T) + [tx, ty]
     return transformed
 
 def compute_transformation_params(control_points, field_points):
