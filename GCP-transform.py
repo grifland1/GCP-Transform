@@ -99,45 +99,42 @@ def create_adjusted_points(control_points, field_points):
 
     return adjusted_points_df
 
-def main():
-    st.title("GCP Transformation Application")
-
-    # File upload widgets (if you are using file upload in Streamlit)
-    control_file = st.file_uploader("Upload Control Points CSV", type=['csv'])
-    field_file = st.file_uploader("Upload Field Points CSV", type=['csv'])
-
-    if control_file and field_file:
-        control_points = pd.read_csv(control_file, header=None)
-        field_points = pd.read_csv(field_file, header=None)
-
-        # Ensure the column names include all columns
-        control_points.columns = ['ID', 'Northing', 'Easting', 'Elevation', 'Description']
-        field_points.columns = ['ID', 'Northing', 'Easting', 'Elevation', 'Description']
-
-        # Debugging: Print the dataframes
-        st.write("Control Points:")
-        st.write(control_points)
-        st.write("Field Points:")
-        st.write(field_points)
-
-        # Call to create_adjusted_points
-        adjusted_points = create_adjusted_points(control_points, field_points)
-
-        if adjusted_points is not None and not adjusted_points.empty:
-            st.write("Adjusted Points:")
-            st.write(adjusted_points)
-
-            # Convert DataFrame to CSV and provide a download link
-            csv = adjusted_points.to_csv(index=False)
-            b64 = base64.b64encode(csv.encode()).decode()
-            href = f'<a href="data:file/csv;base64,{b64}" download="adjusted_points.csv">Download Adjusted Points CSV File</a>'
-            st.markdo    # ... rest of your main function ...
-
-        else:
-            st.error("No adjusted points to display.")
-
-_main__":
-    main()
-n()":
+def main():
+    st.title("GCP Transformation Application")
+
+    # File upload widgets (if you are using file upload in Streamlit)
+    control_file = st.file_uploader("Upload Control Points CSV", type=['csv'])
+    field_file = st.file_uploader("Upload Field Points CSV", type=['csv'])
+
+    if control_file and field_file:
+        control_points = pd.read_csv(control_file, header=None)
+        field_points = pd.read_csv(field_file, header=None)
+
+        # Ensure the column names include all columns
+        control_points.columns = ['ID', 'Northing', 'Easting', 'Elevation', 'Description']
+        field_points.columns = ['ID', 'Northing', 'Easting', 'Elevation', 'Description']
+
+        # Debugging: Print the dataframes
+        st.write("Control Points:")
+        st.write(control_points)
+        st.write("Field Points:")
+        st.write(field_points)
+
+        # Call to create_adjusted_points
+        adjusted_points = create_adjusted_points(control_points, field_points)
+
+        if adjusted_points is not None and not adjusted_points.empty:
+            st.write("Adjusted Points:")
+            st.write(adjusted_points)
+
+            # Convert DataFrame to CSV and provide a download link
+            csv = adjusted_points.to_csv(index=False)
+            b64 = base64.b64encode(csv.encode()).decode()
+            href = f'<a href="data:file/csv;base64,{b64}" download="adjusted_points.csv">Download Adjusted Points CSV File</a>'
+            st.markdown(href, unsafe_allow_html=True)
+        else:
+            st.error("No adjusted points to display.")
+
+if __name__ == "__main__":
     main()
 
