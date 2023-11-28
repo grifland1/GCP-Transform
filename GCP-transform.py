@@ -126,7 +126,8 @@ def main():
 # ... earlier parts of your script ...
 
 if adjusted_points is not None and not adjusted_points.empty:
-    st.write("Adjusted Points:", adjusted_points, index=False)
+    st.write("Adjusted Points:")
+    st.write(adjusted_points, index=False)
 
     # Convert DataFrame to CSV without header and provide a download link
     csv = adjusted_points.to_csv(index=False, header=False)
