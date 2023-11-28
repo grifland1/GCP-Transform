@@ -134,9 +134,8 @@ def main():
             st.markdown(href, unsafe_allow_html=True)
         else:
             st.error
-
-if __name__ == "__main__":
-    main()(__ == "__main__":__name__ == "__main__":
+            
+if __name__ == "__main__": main()__ == "__main__":__name__ == "__main__":
     main()
 n()":
     main()
