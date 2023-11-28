@@ -9,9 +9,16 @@ import streamlit as st
 import base64
 
 def load_points_from_csv(file_path):
-    """Load points from a CSV file using P,N,E,Z,D format."""
-    df = pd.read_csv(file_path, header=None)
-    df.columns = ['ID', 'Northing', 'Easting', 'Elevation', 'Description']
+    """Load points from a CSV file, stripping the header if it exists."""
+    with open(file_path, 'r') as file:
+        first_line = file.readline()
+        # Check if the first line is a header (non-numeric)
+        has_header = any(char.isalpha() for char in first_line)
+
+    # Use the determined header presence to read the file
+    df = pd.read_csv(file_path, header=0 if has_header else None)
+    # Ensure the columns are set as expected
+    df.columns = ['ID', 'Northing', 'Easting', 'Elevation', 'Description'] if len(df.columns) == 5 else ['ID', 'Northing', 'Easting', 'Elevation']
     return df
 
 def transform_points(params, field_points):
