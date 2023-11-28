@@ -11,29 +11,7 @@ import math
 import streamlit as st
 
 
-# In[2]:
-
-
-def main():
-    st.title("GCP Transformation App")
-
-    # File upload widgets
-    control_file = st.file_uploader("Upload Control Points CSV", type=['csv'])
-    field_file = st.file_uploader("Upload Field Points CSV", type=['csv'])
-
-    if control_file and field_file:
-        control_points = pd.read_csv(control_file)
-        field_points = pd.read_csv(field_file)
-
-        adjusted_points = create_adjusted_points(control_points, field_points)
-        st.write("Adjusted Points:")
-        st.write(adjusted_points)
-
-if __name__ == "__main__":
-    main()
-
-
-# In[4]:
+# In[ ]:
 
 
 def load_points_from_csv(file_path):
@@ -142,13 +120,31 @@ def create_adjusted_points(control_points, field_points):
 # In[ ]:
 
 
-def main():
-    control_points = load_points_from_csv('control_points.csv')
-    field_points = load_points_from_csv('field_points.csv')
-
-    adjusted_points = create_adjusted_points(control_points, field_points)
-    print(adjusted_points)
-
-if __name__ == "__main__":
+def main():
+    st.title(GCP Transformation Applicationn")
+
+    # File upload widgets (if you are using file upload in Streamlit)
+    control_file = st.file_uploader("Upload Control Points CSV", type=['csv'])
+    field_file = st.file_uploader("Upload Field Points CSV", type=['csv'])
+
+    if control_file and field_file:
+        control_points = pd.read_csv(control_file, header=None)
+        field_points = pd.read_csv(field_file, header=None)
+        control_points.columns = ['ID', 'Northing', 'Easting', 'Elevation']
+        field_points.columns = ['ID', 'Northing', 'Easting', 'Elevation']
+
+        # Debugging: Print the dataframes
+        st.write("Control Points:")
+        st.write(control_points)
+        st.write("Field Points:")
+        st.write(field_points)
+
+        # Call to create_adjusted_points
+        adjusted_points = create_adjusted_points(control_points, field_points)
+
+        # Display the adjusted points
+        st.write("Adjusted Points:")
+        st.write(adjusted_points)
+
+if __name__ == "__main__":
     main()
-
