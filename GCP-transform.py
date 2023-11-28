@@ -131,11 +131,14 @@ def main():
             csv = adjusted_points.to_csv(index=False)
             b64 = base64.b64encode(csv.encode()).decode()
             href = f'<a href="data:file/csv;base64,{b64}" download="adjusted_points.csv">Download Adjusted Points CSV File</a>'
-            st.markdown(href, unsafe_allow_html=True)
+            st.markdo    # ... rest of your main function ...
+
         else:
-            st.error
-            
-if __name__ == "__main__": main()__ == "__main__":__name__ == "__main__":
+            st.error("No adjusted points to display.")
+
+if __name__ == "__main__":
+    main()
+__ == "__main__":__name__ == "__main__":
     main()
 n()":
     main()
