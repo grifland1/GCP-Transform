@@ -127,7 +127,7 @@ def main():
         # Display transformation parameters
         if final_params is not None:
             scale, rotation, tx, ty = final_params
-            st.write(f"Transformation Parameters: Scale = {scale}, Rotation = {rotation}, Translation = (X: {tx}, Y: {ty})")
+            st.write(f"Transformation Parameters: Scale = {scale}, Rotation = {rotation}, Translation = (Northing: {ty}, Easting: {tx})")
 
     # Check if adjusted_points is not empty
     if adjusted_points is not None and not adjusted_points.empty:
