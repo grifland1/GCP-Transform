@@ -170,6 +170,8 @@ def main():
 
         st.write(adjusted_points)
 
+        adjusted_points.to_csv('adjusted_points.csv', index=False)
+        st.success('Adjusted points saved as adjusted_points.csv')
 
 
 if __name__ == "__main__":
