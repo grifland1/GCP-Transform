@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[16]:
-
-
 import numpy as np
 import pandas as pd
 from scipy.optimize import minimize
@@ -11,18 +8,11 @@ import math
 import streamlit as st
 import base64
 
-# In[17]:
-
-
 def load_points_from_csv(file_path):
     """Load points from a CSV file using P,N,E,Z,D format."""
     df = pd.read_csv(file_path, header=None)
     df.columns = ['ID', 'Northing', 'Easting', 'Elevation', 'Description']
     return df
-
-
-# In[18]:
-
 
 def transform_points(params, field_points):
     """Apply a 2D transformation (scaling, rotation, translation) to field points."""
@@ -38,10 +28,6 @@ def transform_points(params, field_points):
 
     return transformed
 
-
-# In[19]:
-
-
 def compute_transformation_params(control_points, field_points):
     """Find transformation parameters that best fit field points to control points."""
     initial_params = [1, 0, 0, 0]  # Initial guess for scale, rotation, tx, ty
@@ -52,10 +38,6 @@ def compute_transformation_params(control_points, field_points):
 
     result = minimize(error_function, initial_params, method='L-BFGS-B')
     return result.x
-
-
-# In[20]:
-
 
 def match_common_points(control_points, field_points):
     """Match common points based on ID."""
@@ -79,10 +61,6 @@ def apply_elevation_adjustment(field_points, elevation_adjustment):
     """Apply elevation adjustment to all field points."""
     field_points['Adjusted Elevation'] = field_points['Elevation'] + elevation_adjustment
     return field_points
-
-
-# In[21]:
-
 
 def create_adjusted_points(control_points, field_points):
     common_control_points, common_field_points = match_common_points(control_points, field_points)
@@ -121,10 +99,6 @@ def create_adjusted_points(control_points, field_points):
 
     return adjusted_points_df
 
-
-# In[22]:
-
-
 def main():
     st.title("GCP Transformation Application")
 
@@ -159,9 +133,7 @@ def main():
             href = f'<a href="data:file/csv;base64,{b64}" download="adjusted_points.csv">Download Adjusted Points CSV File</a>'
             st.markdown(href, unsafe_allow_html=True)
         else:
-            st.error("No adjusted points to display.")
-
-if __name__ == "__main__":
+            st.error("No adjusted points to displ   main()__ == "__main__":__name__ == "__main__":
     main()
 n()":
     main()
