@@ -30,11 +30,11 @@ def transform_points(params, field_points):
     transformed = np.empty_like(field_points)
     cos_angle, sin_angle = np.cos(angle), np.sin(angle)
 
-    for i, (x, y) in enumerate(field_points):
-        x_scaled, y_scaled = x * scale, y * scale
-        x_new = x_scaled * cos_angle - y_scaled * sin_angle + tx
-        y_new = x_scaled * sin_angle + y_scaled * cos_angle + ty
-        transformed[i] = [x_new, y_new]
+    for i, (northing, easting) in enumerate(field_points):
+        northing_scaled, easting_scaled = northing * scale, easting * scale
+        northing_new = northing_scaled * cos_angle - easting_scaled * sin_angle + tx
+        easting_new = northing_scaled * sin_angle + easting_scaled * cos_angle + ty
+        transformed[i] = [northing_new, easting_new]
 
     return transformed
 
@@ -88,42 +88,34 @@ def create_adjusted_points(control_points, field_points):
     common_control_points, common_field_points = match_common_points(control_points, field_points)
 
     if len(control_points) == 0 or len(field_points) == 0:
-        # Return an empty DataFrame if there's no data to process
-        return pd.DataFrame(columns=['ID', 'Adjusted Northing', 'Adjusted Easting', 'Adjusted Elevation', 'Description']
-        )
+        return pd.DataFrame(columns=['ID', 'Adjusted Northing', 'Adjusted Easting', 'Adjusted Elevation', 'Description'])
 
-    # Initial best-fit transformation
-    initial_params = compute_transformation_params(common_control_points[['Easting', 'Northing']].values, 
-                                                   common_field_points[['Easting', 'Northing']].values)
-    initial_transformed = transform_points(initial_params, common_field_points[['Easting', 'Northing']].values)
+    initial_params = compute_transformation_params(common_control_points[['Northing', 'Easting']].values, 
+                                                   common_field_points[['Northing', 'Easting']].values)
+    initial_transformed = transform_points(initial_params, common_field_points[['Northing', 'Easting']].values)
 
-    # Remove outliers
     keep_indices = remove_outliers(initial_transformed, common_control_points)
     reduced_common_field_points = common_field_points.iloc[keep_indices]
     reduced_common_control_points = common_control_points.iloc[keep_indices]
 
-    # Final transformation with reduced set
-    final_params = compute_transformation_params(reduced_common_control_points[['Easting', 'Northing']].values, 
-                                                 reduced_common_field_points[['Easting', 'Northing']].values)
-    adjusted_points = transform_points(final_params, field_points[['Easting', 'Northing']].values)
+    final_params = compute_transformation_params(reduced_common_control_points[['Northing', 'Easting']].values, 
+                                                 reduced_common_field_points[['Northing', 'Easting']].values)
+    adjusted_points = transform_points(final_params, field_points[['Northing', 'Easting']].values)
     
-    # Calculate and apply elevation adjustment
     elevation_adjustment = calculate_elevation_adjustment(reduced_common_control_points, reduced_common_field_points)
     adjusted_field_points = apply_elevation_adjustment(field_points, elevation_adjustment)
 
-  # Apply final transformation to adjusted field points (with elevation)
-    adjusted_points = transform_points(final_params, field_points[['Northing', 'Easting']].values)
-    adjusted_points_df = pd.DataFrame(adjusted_points, columns=['Adjusted Northing', 'Adjusted Easting'], index=field_points['ID'])
-    adjusted_points_df['Adjusted Elevation'] = field_points['Adjusted Elevation']
-    adjusted_points_df['Description'] = field_points['Description']  # Retain the description
-
-    # Rounding to 3 decimal places
-    adjusted_points_df = adjusted_points_df.round(3)3)
-# Reset index to add 'ID' as a column and reorder the columns
-    adjusted_points_df.reset_index(inplace=True)
-    adjusted_points_df = adjusted_points_df[['ID', 'Adjusted Northing', 'Adjusted Easting', 'Adjusted Elevation', 'Description']]
-
-    return adjusted_points_dfoints_df
+    adjusted_points = transform_points(final_params, adjusted_field_points[['Northing', 'Easting']].values)
+    adjusted_points_df = pd.DataFrame(adjusted_points, columns=['Adjusted Northing', 'Adjusted Easting'], index=field_points['ID'])
+    adjusted_points_df['Adjusted Elevation'] = adjusted_field_points['Adjusted Elevation']
+    adjusted_points_df['Description'] = adjusted_field_points['Description']
+
+    adjusted_points_df = adjusted_points_df.round(3)
+    adjusted_points_df.reset_index(inplace=True)
+    adjusted_points_df = adjusted_points_df[['ID', 'Adjusted Northing', 'Adjusted Easting', 'Adjusted Elevation', 'Description']]
+
+    return adjusted_points_df
+_dfoints_df
 
 # In[22]:
 
