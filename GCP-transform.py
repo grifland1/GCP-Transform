@@ -97,7 +97,7 @@ def create_adjusted_points(control_points, field_points):
 
     adjusted_points_df = adjusted_points_df.round(3)
 
-    return adjusted_points_df
+    return adjusted_points_df, final_params  # Return both the DataFrame and the transformation parameters
 
 def main():
     st.title("GCP Transformation Application")
@@ -122,7 +122,12 @@ def main():
         st.write(field_points, index=False)
 
         # Call create_adjusted_points
-        adjusted_points = create_adjusted_points(control_points, field_points)
+        adjusted_points, final_params = create_adjusted_points(control_points, field_points)  # Unpack the returned tuple
+        
+        # Display transformation parameters
+        if final_params is not None:
+            scale, rotation, tx, ty = final_params
+            st.write(f"Transformation Parameters: Scale = {scale}, Rotation = {rotation}, Translation = (X: {tx}, Y: {ty})")
 
     # Check if adjusted_points is not empty
     if adjusted_points is not None and not adjusted_points.empty:
