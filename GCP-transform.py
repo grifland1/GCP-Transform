@@ -126,7 +126,7 @@ def create_adjusted_points(control_points, field_points):
 
 
 def main():
-    st.title("GCP Trasnformation Application")
+    st.title("GCP Transformation Application")
 
     # File upload widgets (if you are using file upload in Streamlit)
     control_file = st.file_uploader("Upload Control Points CSV", type=['csv'])
@@ -136,32 +136,33 @@ def main():
         control_points = pd.read_csv(control_file, header=None)
         field_points = pd.read_csv(field_file, header=None)
 
-        # Adjust the column names to include all columns
+        # Ensure the column names include all columns
         control_points.columns = ['ID', 'Northing', 'Easting', 'Elevation', 'Description']
         field_points.columns = ['ID', 'Northing', 'Easting', 'Elevation', 'Description']
 
-        # ... rest of your code ...
-
-        # Debugging: Print the dataframes
-        st.write("Control Points:")
-        st.write(control_points)
-        st.write("Field Points:")
-        st.write(field_points)
-
-        # Call to create_adjusted_poadjusted_points = create_adjusted_points(control_points, field_points)
-
-        if adjusted_points is not None and not adjusted_points.empty:
-            st.write("Adjusted Points:")
-            st.write(adjusted_points)usted_points)
-
-            # Convert Dat and provide a download linkaFrame to CSVcsv = adjusted_points.to_csv(index=False)
-            b64 = base64.b64encode(csv.encode()).decode()
-            href = f'<a href="data:file/csv;base64,{b64}" download="adjusted_points.csv">Download Adjusted Points CSV File</a>'
-            st.markdown(href, unsafe_allow_html=True)
-        else:
-            st.error("No adjusted points to display.")
-
-if __name__ == "__main__":
-    main()":
+        # Debugging: Print the dataframes
+        st.write("Control Points:")
+        st.write(control_points)
+        st.write("Field Points:")
+        st.write(field_points)
+
+        # Call to create_adjusted_points
+        adjusted_points = create_adjusted_points(control_points, field_points)
+
+        if adjusted_points is not None and not adjusted_points.empty:
+            st.write("Adjusted Points:")
+            st.write(adjusted_points)
+
+            # Convert DataFrame to CSV and provide a download link
+            csv = adjusted_points.to_csv(index=False)
+            b64 = base64.b64encode(csv.encode()).decode()
+            href = f'<a href="data:file/csv;base64,{b64}" download="adjusted_points.csv">Download Adjusted Points CSV File</a>'
+            st.markdown(href, unsafe_allow_html=True)
+        else:
+            st.error("No adjusted points to display.")
+
+if __name__ == "__main__":
+    main()
+n()":
     main()
 
