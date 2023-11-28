@@ -125,18 +125,22 @@ def create_adjusted_points(control_points, field_points):
 # In[22]:
 
 
-def main():
-    st.title("GCP Trasnformation Application")
-
-    # File upload widgets (if you are using file upload in Streamlit)
-    control_file = st.file_uploader("Upload Control Points CSV", type=['csv'])
-    field_file = st.file_uploader("Upload Field Points CSV", type=['csv'])
-
-    if control_file and field_file:
-        control_points = pd.read_csv(control_file, header=None)
-        field_points = pd.read_csv(field_file, header=None)
-        control_points.columns = ['ID', 'Northing', 'Easting', 'Elevation']
-        field_points.columns = ['ID', 'Northing', 'Easting', 'Elevation']
+def main():
+    st.title("GCP Trasnformation Application")
+
+    # File upload widgets (if you are using file upload in Streamlit)
+    control_file = st.file_uploader("Upload Control Points CSV", type=['csv'])
+    field_file = st.file_uploader("Upload Field Points CSV", type=['csv'])
+
+    if control_file and field_file:
+        control_points = pd.read_csv(control_file, header=None)
+        field_points = pd.read_csv(field_file, header=None)
+
+        # Adjust the column names to include all columns
+        control_points.columns = ['ID', 'Northing', 'Easting', 'Elevation', 'Description']
+        field_points.columns = ['ID', 'Northing', 'Easting', 'Elevation', 'Description']
+
+        # ... rest of your code ...
 
         # Debugging: Print the dataframes
         st.write("Control Points:")
