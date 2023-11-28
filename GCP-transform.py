@@ -133,7 +133,9 @@ def main():
             href = f'<a href="data:file/csv;base64,{b64}" download="adjusted_points.csv">Download Adjusted Points CSV File</a>'
             st.markdown(href, unsafe_allow_html=True)
         else:
-            st.error("No adjusted points to displ   main()__ == "__main__":__name__ == "__main__":
+            st.error("if __name__ == "__main__":
+    main()
+__ == "__main__":__name__ == "__main__":
     main()
 n()":
     main()
