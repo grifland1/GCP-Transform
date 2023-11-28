@@ -136,9 +136,7 @@ def main():
         else:
             st.error("No adjusted points to display.")
 
-if __name__ == "__main__":
-    main()
-__ == "__main__":__name__ == "__main__":
+_main__":
     main()
 n()":
     main()
