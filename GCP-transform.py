@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[1]:
 
 
 import numpy as np
@@ -11,7 +11,7 @@ import math
 import streamlit as st
 
 
-# In[ ]:
+# In[2]:
 
 
 def main():
@@ -33,12 +33,14 @@ if __name__ == "__main__":
     main()
 
 
-# In[ ]:
+# In[4]:
 
 
 def load_points_from_csv(file_path):
-    """Load points from a CSV file."""
-    return pd.read_csv(file_path, usecols=['ID', 'Northing', 'Easting', 'Elevation'])
+    """Load points from a CSV file using P,N,E,Z,D format."""
+    df = pd.read_csv(file_path, header=None)
+    df.columns = ['ID', 'Northing', 'Easting', 'Elevation', 'Description']
+    return df
 
 
 # In[ ]:
